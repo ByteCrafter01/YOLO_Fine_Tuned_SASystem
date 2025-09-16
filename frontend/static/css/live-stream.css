@@ -1,0 +1,455 @@
+
+.streaming-section {
+  display: grid;
+  grid-template-columns: 70fr 30fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  min-height: 600px;
+}
+
+/* Left side - Video stream area */
+.video-stream-area {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.video-container {
+  position: relative;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#videoCanvas {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.stream-overlay {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 10;
+}
+
+.stream-status,
+.frame-counter {
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Stream controls under video */
+.stream-action-controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.stream-action-controls button {
+  padding: 0.8rem 2rem;
+  font-weight: 600;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Right side - Sidebar area */
+.sidebar-area {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Video source selection - equal size section */
+.source-selection {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #e2e8f0;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.source-selection label {
+  display: block;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.source-selection select {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  background: white;
+  transition: border-color 0.3s ease;
+}
+
+.source-selection select:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+/* Analysis panel - equal size section */
+.analysis-panel {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #e2e8f0;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  flex: 1; /* Equal size with source selection */
+  display: flex;
+  flex-direction: column;
+}
+
+.analysis-panel h3 {
+  color: #334155;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Updated analysis stats styling */
+.analysis-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+.stat-label {
+  font-weight: 500;
+  color: #495057;
+}
+
+.stat-value {
+  font-weight: 600;
+  color: #212529;
+  padding: 0.3rem 0.8rem;
+  background: white;
+  border-radius: 4px;
+  min-width: 40px;
+  text-align: center;
+}
+
+/* Status-specific colors */
+.stat-value.status-good {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.stat-value.status-bad {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Violation alerts */
+.violation-alerts {
+  flex: 1;
+  min-height: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 1rem;
+  border: 1px solid #e9ecef;
+}
+
+.violation-alert {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 6px;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  animation: slideInAlert 0.3s ease-in;
+}
+
+.violation-alert:last-child {
+  margin-bottom: 0;
+}
+
+.alert-header {
+  font-weight: 600;
+  color: #856404;
+  margin-bottom: 0.25rem;
+}
+
+.alert-time {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+/* Animation for new alerts */
+@keyframes slideInAlert {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom scrollbar styling */
+.violation-alerts::-webkit-scrollbar {
+  width: 6px;
+}
+
+.violation-alerts::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.violation-alerts::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.violation-alerts::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Query section styles remain the same */
+.query-section {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #e2e8f0;
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.query-section h3 {
+  color: #334155;
+  margin-bottom: 1.5rem;
+}
+
+.query-input-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+#queryInput {
+  flex: 1;
+  padding: 0.8rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+#queryInput:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.query-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.query-btn {
+  padding: 0.5rem 1rem;
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+}
+
+.query-btn:hover {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+.query-history {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.history-item {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.history-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.history-item .query {
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 0.5rem;
+}
+
+.history-item .response {
+  color: #666;
+  line-height: 1.5;
+}
+
+.history-item.example .query {
+  color: #666;
+  font-style: italic;
+}
+
+/* Button styles */
+.btn-primary {
+  background: linear-gradient(135deg, #334155 50%, #334155 100%);
+  color: white;
+}
+
+/* .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+} */
+
+.btn-primary:disabled {
+  background: #6c757d;
+  transform: none;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #f5576c 0%, #f5576c 100%);
+  color: white;
+}
+/* 
+.btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(245, 87, 108, 0.3);
+} */
+
+.btn-danger:disabled {
+  background: #6c757d;
+  transform: none;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  color: #334155;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* .btn-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(168, 237, 234, 0.3);
+} */
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .streaming-section {
+    grid-template-columns: 65fr 35fr;
+  }
+}
+
+@media (max-width: 1024px) {
+  .streaming-section {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .video-container {
+    height: 400px;
+  }
+  
+  .sidebar-area {
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+  
+  .source-selection {
+    flex: 0 0 250px;
+  }
+  
+  .analysis-panel {
+    flex: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .streaming-section {
+    grid-template-columns: 1fr;
+  }
+  
+  .sidebar-area {
+    flex-direction: column;
+  }
+  
+  .video-container {
+    height: 300px;
+  }
+  
+  .stream-action-controls {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .stream-action-controls button {
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  .analysis-stats {
+    gap: 0.8rem;
+  }
+  
+  .query-input-container {
+    flex-direction: column;
+  }
+}

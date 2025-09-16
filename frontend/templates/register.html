@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PPE Detection - Register</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        position: relative; /* Needed for overlay */
+        overflow: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("/static/images/yellow-safety-helmet-wooden-table-building-construction-site_526067-11628.jpg") no-repeat center center/cover;
+        opacity: 0.5; /* Adjust for visibility */
+        z-index: -1; /* Put it behind everything */
+      }
+
+      .register-container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 2rem;
+        border-radius: 5px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 700px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .logo-section {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .logo-section h1 {
+        color: #333;
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .logo-section p {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #e1e5e9;
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.8);
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: #667eea;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+
+      .register-btn {
+        width: 100%;
+        background: linear-gradient(135deg, #334155 0%, #334155 100%);
+        color: white;
+        border: none;
+        padding: 0.75rem;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-bottom: 1rem;
+      }
+
+      /* .register-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+      } */
+
+      .register-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .login-link {
+        text-align: center;
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .login-link a {
+        color: #334155;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .login-link a:hover {
+        text-decoration: underline;
+      }
+
+      .alert {
+        padding: 0.75rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+      }
+
+      .alert-error {
+        background: rgba(239, 68, 68, 0.1);
+        color: #dc2626;
+        border: 1px solid rgba(239, 68, 68, 0.2);
+      }
+
+      .alert-success {
+        background: rgba(34, 197, 94, 0.1);
+        color: #16a34a;
+        border: 1px solid rgba(34, 197, 94, 0.2);
+      }
+
+      .domain-info {
+        background: rgba(59, 130, 246, 0.1);
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        color: #334155;
+        padding: 0.75rem;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+
+      .requirements {
+        background: rgba(107, 114, 128, 0.1);
+        border: 1px solid rgba(107, 114, 128, 0.2);
+        color: #4b5563;
+        padding: 0.75rem;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .requirements ul {
+        margin: 0.5rem 0 0 1.5rem;
+      }
+
+      .requirements li {
+        margin-bottom: 0.25rem;
+      }
+
+      .loading {
+        display: none;
+        text-align: center;
+        color: #667eea;
+      }
+
+      .password-strength {
+        margin-top: 0.5rem;
+        font-size: 0.8rem;
+      }
+
+      .strength-weak {
+        color: #dc2626;
+      }
+      .strength-medium {
+        color: #f59e0b;
+      }
+      .strength-strong {
+        color: #16a34a;
+      }
+
+      @media (max-width: 480px) {
+        .register-container {
+          margin: 1rem;
+          padding: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="register-container">
+      <div class="logo-section">
+        <h1>PPE Detection</h1>
+        <!-- <p>Create Your Account</p> -->
+      </div>
+
+      <div class="domain-info">
+        ℹ️ Only Payoda Employees can register
+      </div>
+
+      <div class="requirements">
+        <strong>Password Requirements:</strong>
+        <ul>
+          <li>At least 6 characters long</li>
+          <li>Use a mix of letters and numbers</li>
+          <li>Include special characters for better security</li>
+        </ul>
+      </div>
+
+      <div id="alertContainer"></div>
+
+      <form id="registerForm">
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            placeholder="John Doe"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="your.name@payoda.com"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter a strong password"
+            required
+          />
+          <div id="passwordStrength" class="password-strength"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="Re-enter your password"
+            required
+          />
+        </div>
+
+        <button type="submit" class="register-btn" id="registerBtn">
+          Create Account
+        </button>
+
+        <div class="loading" id="loading">🔄 Creating your account...</div>
+      </form>
+
+      <div class="login-link">
+        Already have an account? <a href="/login">Sign in here</a>
+      </div>
+    </div>
+
+    <script>
+      const registerForm = document.getElementById("registerForm");
+      const registerBtn = document.getElementById("registerBtn");
+      const loading = document.getElementById("loading");
+      const alertContainer = document.getElementById("alertContainer");
+      const passwordInput = document.getElementById("password");
+      const passwordStrength = document.getElementById("passwordStrength");
+
+      function showAlert(message, type = "error") {
+        const alertClass = type === "error" ? "alert-error" : "alert-success";
+        alertContainer.innerHTML = `
+                <div class="alert ${alertClass}">
+                    ${message}
+                </div>
+            `;
+
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+          alertContainer.innerHTML = "";
+        }, 5000);
+      }
+
+      function setLoading(isLoading) {
+        if (isLoading) {
+          registerBtn.style.display = "none";
+          loading.style.display = "block";
+          registerBtn.disabled = true;
+        } else {
+          registerBtn.style.display = "block";
+          loading.style.display = "none";
+          registerBtn.disabled = false;
+        }
+      }
+
+      function checkPasswordStrength(password) {
+        let strength = 0;
+        let feedback = [];
+
+        if (password.length >= 6) strength++;
+        else feedback.push("at least 6 characters");
+
+        if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+        else feedback.push("uppercase and lowercase letters");
+
+        if (/\d/.test(password)) strength++;
+        else feedback.push("numbers");
+
+        if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength++;
+        else feedback.push("special characters");
+
+        if (password.length === 0) {
+          passwordStrength.innerHTML = "";
+          return;
+        }
+
+        let strengthText = "";
+        let strengthClass = "";
+
+        if (strength <= 1) {
+          strengthText = "Weak";
+          strengthClass = "strength-weak";
+        } else if (strength <= 2) {
+          strengthText = "Medium";
+          strengthClass = "strength-medium";
+        } else {
+          strengthText = "Strong";
+          strengthClass = "strength-strong";
+        }
+
+        passwordStrength.innerHTML = `<span class="${strengthClass}">Password strength: ${strengthText}</span>`;
+      }
+
+      passwordInput.addEventListener("input", (e) => {
+        checkPasswordStrength(e.target.value);
+      });
+
+      registerForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const fullName = document.getElementById("fullName").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+        const confirmPassword =
+          document.getElementById("confirmPassword").value;
+
+        // Basic validation
+        if (!fullName || !email || !password || !confirmPassword) {
+          showAlert("Please fill in all fields");
+          return;
+        }
+
+        // Validate Payoda email domain
+        if (!email.toLowerCase().endsWith("@payoda.com")) {
+          showAlert("Only @payoda.com email addresses are allowed to register");
+          return;
+        }
+
+        // Password validation
+        if (password.length < 6) {
+          showAlert("Password must be at least 6 characters long");
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          showAlert("Passwords do not match");
+          return;
+        }
+
+        setLoading(true);
+
+        try {
+          const response = await fetch("/api/auth/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              full_name: fullName,
+              email: email,
+              password: password,
+            }),
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            showAlert(
+              "Account created successfully! You can now sign in.",
+              "success"
+            );
+
+            // Clear form
+            registerForm.reset();
+            passwordStrength.innerHTML = "";
+
+            // Redirect to login after success message
+            setTimeout(() => {
+              window.location.href = "/login";
+            }, 2500);
+          } else {
+            showAlert(data.error || "Registration failed");
+          }
+        } catch (error) {
+          console.error("Registration error:", error);
+          showAlert(
+            "Network error. Please check your connection and try again."
+          );
+        } finally {
+          setLoading(false);
+        }
+      });
+
+      // Check if user is already logged in
+      window.addEventListener("DOMContentLoaded", () => {
+        const token = localStorage.getItem("ppe_token");
+        if (token) {
+          // Verify token is still valid
+          fetch("/api/auth/verify", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+            .then((response) => {
+              if (response.ok) {
+                // Already logged in, redirect to dashboard
+                window.location.href = "/";
+              } else {
+                // Token invalid, clear storage
+                localStorage.removeItem("ppe_token");
+                localStorage.removeItem("ppe_user");
+              }
+            })
+            .catch(() => {
+              // Network error, assume token might be invalid
+              localStorage.removeItem("ppe_token");
+              localStorage.removeItem("ppe_user");
+            });
+        }
+      });
+    </script>
+  </body>
+</html>

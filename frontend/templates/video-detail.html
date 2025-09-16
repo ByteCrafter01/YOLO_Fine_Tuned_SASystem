@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Analysis Details</title>
+    <!-- Base styles first (required for all pages) -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/base.css') }}"
+    />
+
+    <!-- Page-specific styles -->
+    <!-- For dashboard.html: -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboard.css') }}"
+    />
+
+    <!-- For live-stream.html: -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/live-stream.css') }}"
+    />
+
+    <!-- For video-grid.html: -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/video-grid.css') }}"
+    />
+
+    <!-- For video-detail.html: -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/video-detail.css') }}"
+    />
+  </head>
+  <body>
+    <div class="detail-container">
+      <header class="dashboard-header">
+        <h1>Video Analysis Details</h1>
+        <nav>
+          <a href="/" class="nav-link">Dashboard</a>
+          <a href="/live-stream" class="nav-link">Live Stream</a>
+          <a href="/video-grid" class="nav-link">Video Grid</a>
+        </nav>
+      </header>
+
+      <div class="detail-content">
+        <div class="video-info-section" id="videoInfoSection">
+          <div class="loading">Loading video details...</div>
+        </div>
+
+        <div
+          class="analysis-summary"
+          id="analysisSummary"
+          style="display: none"
+        >
+          <h2>Analysis Summary</h2>
+          <div class="summary-content" id="summaryContent"></div>
+        </div>
+
+        <div
+          class="screenshots-section"
+          id="screenshotsSection"
+          style="display: none"
+        >
+          <h2>Violation Screenshots</h2>
+          <div class="screenshots-grid" id="screenshotsGrid"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/video-detail.js') }}"></script>
+  </body>
+</html>

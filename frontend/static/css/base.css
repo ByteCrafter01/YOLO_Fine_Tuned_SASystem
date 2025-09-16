@@ -1,0 +1,134 @@
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg, #f8fafc 0%, #f8fafc 100%);
+  color: #333;
+  min-height: 100vh;
+}
+
+/* Header styles */
+.dashboard-header {
+  background: #334155;
+  backdrop-filter: blur(10px);
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.dashboard-header h1 {
+  color: #eff1f3;
+  font-weight: 600;
+  font-size: 1.6rem;
+}
+
+nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #666;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-weight: 200;
+}
+
+.nav-link:hover{
+  background: white;
+  color: #334155;
+  transform: translateY(-2px);
+}
+.nav-link.active {
+  background: #334155;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Button styles */
+.feature-btn,
+.btn-primary,
+.btn-secondary,
+.btn-danger,
+.btn-outline {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 1px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.feature-btn,
+.btn-primary {
+  background: linear-gradient(135deg, #334155 0%, #334155 100%);
+  color: white;
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #334155 0%, #334155 100%);
+  color: white;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #a64343 0%, #a64343 100%);
+  color: white;
+}
+
+/* Common container styles */
+.dashboard-container,
+.live-container,
+.grid-container,
+.detail-container {
+  min-height: 100vh;
+}
+
+.dashboard-main,
+.live-content,
+.grid-content,
+.detail-content {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Loading and placeholder styles */
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+}
+
+.loading-placeholder {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 1px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  nav {
+    justify-content: center;
+  }
+}

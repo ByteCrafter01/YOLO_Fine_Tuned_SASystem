@@ -1,0 +1,503 @@
+/* Professional Video Detail Styles - Replace existing styles */
+
+/* Main sections - Clean, professional appearance */
+.video-info-section,
+.analysis-summary,
+.screenshots-section {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+}
+
+/* Section headers */
+.video-info-section h2,
+.analysis-summary h2,
+.screenshots-section h2 {
+  color: #1a202c;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  border-bottom: 2px solid #f7fafc;
+  padding-bottom: 0.75rem;
+}
+
+/* Video metadata grid - Clean layout */
+.video-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 6px;
+  border-left: 4px solid #3182ce;
+}
+
+.meta-item strong {
+  font-size: 0.875rem;
+  color: #4a5568;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.meta-item span {
+  font-size: 1rem;
+  color: #1a202c;
+  font-weight: 600;
+}
+
+/* Status indicators */
+.status-processed {
+  color: #38a169;
+  background: #f0fff4;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.status-processing {
+  color: #d69e2e;
+  background: #fffbeb;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.violation-count {
+  color: #e53e3e;
+  background: #fed7d7;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+/* Analysis summary content */
+.summary-content {
+  display: grid;
+  gap: 2rem;
+}
+
+.summary-text {
+  background: #f8fafc;
+  padding: 1.5rem;
+  border-radius: 6px;
+  border-left: 4px solid #4299e1;
+}
+
+.summary-text p {
+  color: #2d3748;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.summary-text p:last-child {
+  margin-bottom: 0;
+}
+
+/* Violation breakdown section */
+.violation-breakdown {
+  margin-top: 1.5rem;
+}
+
+.violation-breakdown h3 {
+  color: #1a202c;
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.violation-stats {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.violation-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: #fff5f5;
+  border: 1px solid #feb2b2;
+  border-radius: 6px;
+}
+
+.violation-stat .violation-type {
+  color: #c53030;
+  font-weight: 500;
+}
+
+.violation-stat .violation-count {
+  color: #1a202c;
+  font-weight: 600;
+  background: none;
+  padding: 0;
+}
+
+.compliance-score {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.compliance-score h3 {
+  color: #1a202c;
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.score-display {
+  display: inline-block;
+  padding: 1.5rem 2rem;
+  background: #f0f1ff;
+  border: 2px solid #9aa7e6;
+  border-radius: 12px;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #222a54;
+  min-width: 120px;
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem;
+  color: #718096;
+  font-size: 1rem;
+}
+
+.error-message {
+  text-align: center;
+  padding: 2rem;
+}
+
+.error-message h2 {
+  color: #e53e3e;
+  margin-bottom: 1rem;
+}
+
+.error-message p {
+  color: #4a5568;
+  margin-bottom: 1.5rem;
+}
+
+.btn-secondary {
+  background: #334155;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+/* .btn-secondary:hover {
+  background: #2d3748;
+} */
+
+/* Screenshots section improvements */
+.screenshots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.screenshot-item {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.screenshot-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: #cbd5e0;
+}
+
+.screenshot-item img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.screenshot-info {
+  padding: 1rem;
+}
+
+.screenshot-timestamp {
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.screenshot-violations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.violation-tag {
+  padding: 0.25rem 0.75rem;
+  background: #e53e3e;
+  color: white;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .video-info-section,
+  .analysis-summary,
+  .screenshots-section {
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .video-meta-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .meta-item {
+    padding: 0.75rem;
+  }
+
+  .screenshots-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .score-display {
+    font-size: 2rem;
+    padding: 1rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .video-info-section,
+  .analysis-summary,
+  .screenshots-section {
+    padding: 1rem;
+  }
+
+  .summary-text {
+    padding: 1rem;
+  }
+
+  .score-display {
+    font-size: 1.75rem;
+    padding: 0.75rem 1rem;
+  }
+}
+
+/* Add this to your existing video-detail.css file */
+
+/* Image Modal Styles */
+.image-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    color: white;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1001;
+    transition: color 0.3s ease;
+}
+
+.modal-close:hover {
+    color: #ff4444;
+}
+
+.modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1001;
+}
+
+.modal-nav:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.modal-prev {
+    left: -70px;
+}
+
+.modal-next {
+    right: -70px;
+}
+
+#modalImage {
+    max-width: 100%;
+    max-height: 70vh;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    animation: zoomIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal-info {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-top: 15px;
+    text-align: center;
+    min-width: 300px;
+}
+
+.modal-timestamp {
+    font-size: 18px;
+    font-weight: bold;
+    color: #4CAF50;
+    margin-bottom: 5px;
+}
+
+.modal-violation-type {
+    font-size: 16px;
+    color: #ff6b6b;
+    margin-bottom: 8px;
+    text-transform: capitalize;
+}
+
+.modal-counter {
+    font-size: 14px;
+    color: #ccc;
+}
+
+/* Enhanced screenshot grid hover effect */
+.screenshot-item img {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.screenshot-item img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Mobile responsiveness for modal */
+@media (max-width: 768px) {
+    .modal-content {
+        max-width: 95%;
+        max-height: 95%;
+    }
+    
+    .modal-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+    
+    .modal-prev {
+        left: -50px;
+    }
+    
+    .modal-next {
+        right: -50px;
+    }
+    
+    #modalImage {
+        max-height: 60vh;
+    }
+    
+    .modal-close {
+        top: -30px;
+        font-size: 28px;
+    }
+    
+    .modal-info {
+        min-width: 250px;
+        padding: 10px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-nav {
+        position: fixed;
+        top: auto;
+        bottom: 80px;
+        transform: none;
+    }
+    
+    .modal-prev {
+        left: 20px;
+    }
+    
+    .modal-next {
+        right: 20px;
+    }
+    
+    .modal-info {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        margin: 0;
+    }
+}

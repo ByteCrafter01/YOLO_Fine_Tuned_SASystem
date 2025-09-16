@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PPE Detection System - Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/base.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboard.css') }}"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <header class="dashboard-header">
+        <h1>PPE Detection System</h1>
+        <nav>
+          <a href="/" class="nav-link active">Dashboard</a>
+          <a href="/live-stream" class="nav-link">Live Stream</a>
+          <a href="/video-grid" class="nav-link">Video Grid</a>
+        </nav>
+      </header>
+
+      <main class="dashboard-main">
+        <!-- Feature Cards Section -->
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h3>Live Stream Monitor</h3>
+            <p>Real-time PPE detection with WebSocket streaming</p>
+            <button class="feature-btn" id="startLiveStreamBtn">
+              Start Live Stream
+            </button>
+          </div>
+
+          <div class="feature-card" onclick="location.href='/video-grid'">
+            <h3>Video Analysis Grid</h3>
+            <p>Select and analyze multiple videos for PPE compliance</p>
+            <button class="feature-btn">Browse Videos</button>
+          </div>
+
+          <div class="feature-card upload-card">
+            <h3>Upload & Process Video</h3>
+            <p>Upload video files and watch real-time processing</p>
+            <input
+              type="file"
+              id="videoUpload"
+              accept="video/*"
+              style="display: none"
+            />
+            <button
+              class="feature-btn"
+              onclick="document.getElementById('videoUpload').click()"
+            >
+              Upload Video
+            </button>
+            <div id="uploadStatus" class="upload-status"></div>
+          </div>
+        </div>
+
+        <!-- Dashboard Grid Layout -->
+        <div class="dashboard-grid">
+          <!-- Violations Over Time Chart -->
+          <div class="chart-card">
+            <h3>Violations Over Time</h3>
+            <canvas id="violationsChart"></canvas>
+          </div>
+
+          <!-- System Overview -->
+          <div class="system-overview-card">
+            <h3>System Overview</h3>
+            <div class="overview-stats">
+              <div class="overview-item">
+                <span class="overview-label">Total Videos</span>
+                <span class="overview-value" id="totalVideos"></span>
+              </div>
+              <div class="overview-item">
+                <span class="overview-label">Processed Videos</span>
+                <span class="overview-value" id="processedVideos"></span>
+              </div>
+              <div class="overview-item">
+                <span class="overview-label">Total Violations</span>
+                <span class="overview-value" id="totalViolations"></span>
+              </div>
+              <div class="overview-item">
+                <span class="overview-label">System Status</span>
+                <span class="overview-status online">Online</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Area Breakdown -->
+          <div class="area-breakdown-card">
+            <h3>Area Breakdown</h3>
+            <div class="area-items">
+              <div class="area-item site-a">
+                <div class="area-info">
+                  <div class="area-name">Site A - Construction</div>
+                </div>
+                <div class="area-stats">
+                  <div class="compliance-percentage">71.4%</div>
+                  <div class="violation-count">8 violations</div>
+                </div>
+              </div>
+              
+              <div class="area-item site-b">
+                <div class="area-info">
+                  <div class="area-name">Site B - Warehouse</div>
+                </div>
+                <div class="area-stats">
+                  <div class="compliance-percentage site-b-color">71.4%</div>
+                  <div class="violation-count">8 violations</div>
+                </div>
+              </div>
+              
+              <div class="area-item site-c">
+                <div class="area-info">
+                  <div class="area-name">Site C - Manufacturing</div>
+                </div>
+                <div class="area-stats">
+                  <div class="compliance-percentage site-c-color">65.7%</div>
+                  <div class="violation-count">12 violations</div>
+                </div>
+              </div>
+              
+              <div class="area-item site-d">
+                <div class="area-info">
+                  <div class="area-name">Site D - Laboratory</div>
+                </div>
+                <div class="area-stats">
+                  <div class="compliance-percentage site-d-color">96.8%</div>
+                  <div class="violation-count">1 violation</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Top Violators -->
+          <div class="top-violators-card">
+            <h3>Top Violators</h3>
+            <div class="violator-items">
+              <div class="violator-item">
+                <div class="violator-info">
+                  <span class="violator-name">Site C</span>
+                  <span class="violator-type">Manufacturing</span>
+                </div>
+                <div class="violator-count">12 violations</div>
+              </div>
+              
+              <div class="violator-item">
+                <div class="violator-info">
+                  <span class="violator-name">Site A</span>
+                  <span class="violator-type">Construction</span>
+                </div>
+                <div class="violator-count">8 violations</div>
+              </div>
+              
+              <div class="violator-item">
+                <div class="violator-info">
+                  <span class="violator-name">Site B</span>
+                  <span class="violator-type">Warehouse</span>
+                </div>
+                <div class="violator-count">3 violations</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      // Dashboard functionality
+      class Dashboard {
+        constructor() {
+          this.loadStats();
+          this.setupUpload();
+          this.setupLiveStreamButton();
+          this.initializeChart();
+        }
+
+        setupLiveStreamButton() {
+          const liveStreamBtn = document.getElementById("startLiveStreamBtn");
+          if (liveStreamBtn) {
+            liveStreamBtn.addEventListener("click", () => {
+              window.location.href = "/live-stream?autostart=webcam";
+            });
+          }
+        }
+
+        async loadStats() {
+          try {
+const token = localStorage.getItem("ppe_token");
+const response = await fetch("/api/videos", {
+  headers: {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  },
+});            const videos = await response.json();
+
+            const totalVideos = videos.length;
+            const processedVideos = videos.filter((v) => v.processed).length;
+            const totalViolations = videos.reduce(
+              (sum, v) => sum + (v.total_violations || 0),
+              0
+            );
+
+            document.getElementById("totalVideos").textContent = totalVideos || 27;
+            document.getElementById("processedVideos").textContent = processedVideos || 15;
+            document.getElementById("totalViolations").textContent = totalViolations || 24;
+          } catch (error) {
+            console.error("Error loading stats:", error);
+            // Keep mock data if API fails
+          }
+        }
+
+        setupUpload() {
+          const uploadInput = document.getElementById("videoUpload");
+          const uploadStatus = document.getElementById("uploadStatus");
+
+          uploadInput.addEventListener("change", async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            uploadStatus.textContent = "Uploading...";
+            uploadStatus.className = "upload-status uploading";
+
+            const formData = new FormData();
+            formData.append("video", file);
+
+            try {
+              const token = localStorage.getItem("ppe_token");
+const response = await fetch("/api/upload", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+  body: formData,
+});
+
+              const result = await response.json();
+
+              if (result.success) {
+                uploadStatus.textContent =
+                  "Upload successful! Redirecting to processing...";
+                uploadStatus.className = "upload-status success";
+
+                setTimeout(() => {
+                  window.location.href = `/live-stream?mode=process&video_id=${result.video_id}`;
+                }, 1500);
+
+                this.loadStats();
+              } else {
+                throw new Error(result.error || "Upload failed");
+              }
+            } catch (error) {
+              uploadStatus.textContent = `Upload failed: ${error.message}`;
+              uploadStatus.className = "upload-status error";
+            }
+
+            uploadInput.value = "";
+          });
+        }
+handleAuthError(error) {
+  console.error("Authentication error:", error);
+  if (error.message.includes('401')) {
+    alert("Session expired. Please log in again.");
+    window.location.href = "/login";
+    return;
+  }
+  throw error;
+}
+        initializeChart() {
+          const ctx = document.getElementById('violationsChart').getContext('2d');
+          
+          // Mock data for violations over time (weekly)
+          const violationsData = {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [{
+              data: [5, 12, 8, 22, 55, 25, 12],
+              borderColor: '#4F8EF7',
+              backgroundColor: 'rgba(79, 142, 247, 0.1)',
+              borderWidth: 3,
+              fill: true,
+              tension: 0.4,
+              pointBackgroundColor: '#4F8EF7',
+              pointBorderColor: '#ffffff',
+              pointBorderWidth: 2,
+              pointRadius: 6,
+              pointHoverRadius: 8
+            }]
+          };
+
+          new Chart(ctx, {
+            type: 'line',
+            data: violationsData,
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  display: false
+                }
+              },
+              scales: {
+                x: {
+                  grid: {
+                    display: false
+                  },
+                  ticks: {
+                    color: '#6B7280',
+                    font: {
+                      size: 12
+                    }
+                  }
+                },
+                y: {
+                  beginAtZero: true,
+                  grid: {
+                    color: 'rgba(107, 114, 128, 0.1)'
+                  },
+                  ticks: {
+                    color: '#6B7280',
+                    font: {
+                      size: 12
+                    }
+                  }
+                }
+              },
+              interaction: {
+                intersect: false,
+                mode: 'index'
+              }
+            }
+          });
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        new Dashboard();
+      });
+    </script>
+  </body>
+</html>

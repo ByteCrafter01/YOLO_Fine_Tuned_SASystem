@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PPE Detection - Login</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        position: relative; /* Needed for overlay */
+        overflow: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("/static/images/yellow-safety-helmet-wooden-table-building-construction-site_526067-11628.jpg")
+          no-repeat center center/cover;
+        opacity: 0.5; /* Adjust for visibility */
+        z-index: -1; /* Put it behind everything */
+      }
+
+      .login-container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 2rem;
+        border-radius: 5px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 700px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .logo-section {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .logo-section h1 {
+        color: #333;
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .logo-section p {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #e1e5e9;
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.8);
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: #667eea;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+
+      .login-btn {
+        width: 100%;
+        background: linear-gradient(135deg, #334155 0%, #334155 100%);
+        color: white;
+        border: none;
+        padding: 0.75rem;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-bottom: 1rem;
+      }
+
+      /* .login-btn:hover { */
+        /* box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3); */
+      /* } */
+
+      .login-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .register-link {
+        text-align: center;
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .register-link a {
+        color: #334155;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .register-link a:hover {
+        text-decoration: underline;
+      }
+
+      .alert {
+        padding: 0.75rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+      }
+
+      .alert-error {
+        background: rgba(239, 68, 68, 0.1);
+        color: #dc2626;
+        border: 1px solid rgba(239, 68, 68, 0.2);
+      }
+
+      .alert-success {
+        background: rgba(34, 197, 94, 0.1);
+        color: #16a34a;
+        border: 1px solid rgba(34, 197, 94, 0.2);
+      }
+
+      .domain-info {
+        background: rgba(59, 130, 246, 0.1);
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        color: #334155;
+        padding: 0.75rem;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+
+      .loading {
+        display: none;
+        text-align: center;
+        color: #334155;
+      }
+
+      @media (max-width: 480px) {
+        .login-container {
+          margin: 1rem;
+          padding: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <div class="logo-section">
+        <h1>PPE Detection</h1>
+        <p>Workplace Safety Management System</p>
+      </div>
+
+      <div class="domain-info">
+        ℹ️ Only Payoda Employees can access this system
+      </div>
+
+      <div id="alertContainer"></div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="your.name@payoda.com"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+
+        <button type="submit" class="login-btn" id="loginBtn">Sign In</button>
+
+        <div class="loading" id="loading">🔄 Signing you in...</div>
+      </form>
+
+      <div class="register-link">
+        Don't have an account? <a href="/register">Create one here</a>
+      </div>
+    </div>
+
+    <script>
+      const loginForm = document.getElementById("loginForm");
+      const loginBtn = document.getElementById("loginBtn");
+      const loading = document.getElementById("loading");
+      const alertContainer = document.getElementById("alertContainer");
+
+      function showAlert(message, type = "error") {
+        const alertClass = type === "error" ? "alert-error" : "alert-success";
+        alertContainer.innerHTML = `
+                <div class="alert ${alertClass}">
+                    ${message}
+                </div>
+            `;
+
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+          alertContainer.innerHTML = "";
+        }, 5000);
+      }
+
+      function setLoading(isLoading) {
+        if (isLoading) {
+          loginBtn.style.display = "none";
+          loading.style.display = "block";
+          loginBtn.disabled = true;
+        } else {
+          loginBtn.style.display = "block";
+          loading.style.display = "none";
+          loginBtn.disabled = false;
+        }
+      }
+
+      // Function to set cookie
+      function setCookie(name, value, days) {
+        const expires = new Date();
+        expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+        document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;SameSite=Lax`;
+      }
+
+      loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        // Basic validation
+        if (!email || !password) {
+          showAlert("Please fill in all fields");
+          return;
+        }
+
+        // Validate Payoda email domain
+        if (!email.toLowerCase().endsWith("@payoda.com")) {
+          showAlert("Only @payoda.com email addresses are allowed");
+          return;
+        }
+
+        setLoading(true);
+
+        try {
+          const response = await fetch("/api/auth/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            // Store JWT token in localStorage
+            localStorage.setItem("ppe_token", data.token);
+            localStorage.setItem("ppe_user", JSON.stringify(data.user));
+
+            // Also store in cookie for backend access
+            setCookie("ppe_token", data.token, 1); // 1 day
+
+            showAlert("Login successful! Redirecting...", "success");
+
+            // Redirect to dashboard after brief delay
+            setTimeout(() => {
+              window.location.href = "/";
+            }, 1500);
+          } else {
+            showAlert(data.error || "Login failed");
+          }
+        } catch (error) {
+          console.error("Login error:", error);
+          showAlert(
+            "Network error. Please check your connection and try again."
+          );
+        } finally {
+          setLoading(false);
+        }
+      });
+
+      // Check if user is already logged in
+      window.addEventListener("DOMContentLoaded", () => {
+        const token = localStorage.getItem("ppe_token");
+        if (token) {
+          // Verify token is still valid
+          fetch("/api/auth/verify", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+            .then((response) => {
+              if (response.ok) {
+                // Already logged in, redirect to dashboard
+                console.log("Valid token found, redirecting to dashboard");
+                // Also ensure cookie is set
+                setCookie("ppe_token", token, 1);
+                window.location.href = "/";
+              } else {
+                // Token invalid, clear storage
+                console.log("Invalid token, clearing storage");
+                localStorage.removeItem("ppe_token");
+                localStorage.removeItem("ppe_user");
+                // Clear cookie too
+                setCookie("ppe_token", "", -1);
+              }
+            })
+            .catch(() => {
+              // Network error, clear storage
+              console.log("Network error verifying token, clearing storage");
+              localStorage.removeItem("ppe_token");
+              localStorage.removeItem("ppe_user");
+              setCookie("ppe_token", "", -1);
+            });
+        } else {
+          console.log("No token found, staying on login page");
+        }
+      });
+    </script>
+  </body>
+</html>

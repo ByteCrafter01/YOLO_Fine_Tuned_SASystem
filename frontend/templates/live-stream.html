@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live PPE Detection Stream</title>
+    <!-- Base styles first (required for all pages) -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/base.css') }}"
+    />
+
+    <!-- Page-specific styles -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboard.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/live-stream.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/video-grid.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/video-detail.css') }}"
+    />
+  </head>
+  <body>
+    <div class="live-container">
+      <header class="dashboard-header">
+        <h1>Live PPE Detection Stream</h1>
+        <nav>
+          <a href="/" class="nav-link">Dashboard</a>
+          <a href="/live-stream" class="nav-link active">Live Stream</a>
+          <a href="/video-grid" class="nav-link">Video Grid</a>
+        </nav>
+      </header>
+
+      <div class="live-content">
+        <!-- Main streaming section with new layout -->
+        <div class="streaming-section">
+          <!-- Left side: Video stream -->
+          <div class="video-stream-area">
+            <div class="video-container">
+              <canvas id="videoCanvas" width="640" height="480"></canvas>
+              <div class="stream-overlay">
+                <div class="stream-status" id="streamStatus">Disconnected</div>
+                <div class="frame-counter" id="frameCounter">Frame: 0</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right side: Controls and Analysis -->
+          <div class="sidebar-area">
+            <!-- Video source selection (small section) -->
+            <div class="source-selection">
+              <label for="videoSource">Video Source</label>
+              <select id="videoSource">
+                <option value="">Select video source</option>
+              </select>
+              
+              <!-- Stream controls moved under video -->
+              <div class="stream-action-controls">
+                <button id="startStream" class="btn-primary">
+                  Start Stream
+                </button>
+                <button id="stopStream" class="btn-danger" disabled>
+                  Stop Stream
+                </button>
+              </div>
+            </div>
+
+            <!-- Real-time analysis (larger section) -->
+            <div class="analysis-panel">
+              <h3>Real-time Analysis</h3>
+              <div class="analysis-stats" id="analysisStats">
+                <div class="stat-item">
+                  <span class="stat-label">People:</span>
+                  <span class="stat-value" id="peopleCount">-</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Status:</span>
+                  <span class="stat-value" id="complianceStatus">-</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Violations:</span>
+                  <span class="stat-value" id="violationCount">-</span>
+                </div>
+              </div>
+              <div class="violation-alerts" id="violationAlerts"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Query section remains at bottom -->
+        <div class="query-section">
+          <h3>Query Interface</h3>
+          <div class="query-input-container">
+            <input
+              type="text"
+              id="queryInput"
+              placeholder="Ask about PPE status, person count, violations..."
+            />
+            <button id="sendQuery" class="btn-secondary">Ask</button>
+          </div>
+
+          <div class="query-suggestions">
+            <button class="query-btn" data-query="How many people are visible?">
+              People Count
+            </button>
+            <button
+              class="query-btn"
+              data-query="What is the PPE compliance status?"
+            >
+              PPE Status
+            </button>
+            <button class="query-btn" data-query="Are there any violations?">
+              Violations
+            </button>
+            <button class="query-btn" data-query="Is the work area safe?">
+              Safety Status
+            </button>
+          </div>
+
+          <div class="query-history" id="queryHistory">
+            <div class="history-item example">
+              <div class="query">
+                Welcome! Try asking questions about the live stream.
+              </div>
+              <div class="response">
+                Available queries: person count, PPE status, violations, safety
+                status
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+    <script src="{{ url_for('static', filename='js/live-stream.js') }}"></script>
+  </body>
+</html>
